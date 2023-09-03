@@ -1,0 +1,8 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.formatting.provider": "none",
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/29d7d37c-dc47-46cc-b4e8-9c8ade0006a3/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/studybud-CYP",
+    "appService.deploySubpath": "."
+}
