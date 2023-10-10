@@ -1,3 +1,12 @@
-django
+asgiref
+autopep8
+django==4.1.10
 whitenoise
 psycopg2
+django-cors-headers
+djangorestframework
+Pillow
+pycodestyle
+pytz
+sqlparse
+toml

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,21 +29,33 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+CSRF_TRUSTED_ORIGINS = ['https://'+ os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
+
+
 # Application definition
 
 INSTALLED_APPS = [
-    "whitenoise.runserver_nostatic",
+    # "whitenoise.runserver_nostatic",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'base.apps.BaseConfig'
+
+    'base.apps.BaseConfig',
+
+    'rest_framework',
+    'corsheaders'
 ]
+
+AUTH_USER_MODEL = 'base.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,6 +87,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'studybud.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -85,10 +99,10 @@ DATABASES = {
 
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "studybud-db",
-        "USER": "drballhard@studybud-db",
+        "NAME": "studybuddb",
+        "USER": "drballhard@studybuddb",
         "PASSWORD": "Baller247$",
-        "HOST": "studybud-db.postgres.database.azure.com",
+        "HOST": "studybuddb.postgres.database.azure.com",
         "PORT": "5432",
         "OPTIONS" : {"sslmode" : "require"}, 
     }
@@ -129,12 +143,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
+STATIC_URL = 'static/'
+MEDIA_URL = '/images/'
+
+
+MEDIA_ROOT = BASE_DIR / 'static/images'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOW_ALL_ORIGINS = True
